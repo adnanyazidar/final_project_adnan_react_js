@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import { Text } from "@chakra-ui/react";
+// import { useHistory } from "react-router-dom"; // Import useHistory from React Router]
+import { Navigate, useNavigate } from "react-router-dom"; // Import useHistory from React Router]
+import {  Button, Flex } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import {
   Accordion,
@@ -10,28 +11,33 @@ import {
   Box,
   TableContainer,
   Table,
-  TableCaption,
   Thead,
   Tbody,
   Tr,
   Th,
-  Td,
 } from "@chakra-ui/react";
-
+ 
 export default function OrderHistory() {
-  const getOrderData = useSelector((state) => state.pizza.orderPlace);
-
+  // const history = useHistory(); // Get the history object
+  const history = useNavigate(); // Get the history object
+const getOrderData = useSelector((state) => state.pizza.orderPlace);
+ 
+  const handleBackButtonClick = () => {
+    // history.push("/main-menu"); // Replace "/main-menu" with the path to your main menu component
+    history("/");
+  };
+ 
   return (
     <>
+      
       <div>
         {getOrderData.map((data) => (
-          // <Text>{data[0].pizzaName}</Text>
-          <Accordion allowToggle>
+          <Accordion allowToggle key={data.orderId}>
             <AccordionItem>
               <h2>
                 <AccordionButton>
                   <Box as="span" flex="1" textAlign="left">
-                    Order Number #ID{data["orderId"]}
+                    Order Number #ID{data.orderId}
                   </Box>
                   <AccordionIcon />
                 </AccordionButton>
@@ -42,18 +48,18 @@ export default function OrderHistory() {
                     <Thead>
                       <Tr>
                         <Th>Nama Makanan</Th>
+                        <Th>Notes</Th> 
                         <Th>Jumlah Pesanan</Th>
-                        <Th>Notes</Th>
                         <Th isNumeric>Price</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
                       {data.cartData.map((item) => (
-                        <Tr>
-                          <Th> {item.pizzaName}</Th>
-                          <Th> {item.quantity}</Th>
-                          <Th> {item.notes}</Th>
-                          <Th isNumeric> {item.price}</Th>
+                        <Tr key={item.pizzaName}>
+                          <Th>{item.pizzaName}</Th>
+                          <Th>{item.notes}</Th>
+                          <Th>{item.quantity}</Th>
+                          <Th isNumeric>{item.price}</Th>
                         </Tr>
                       ))}
                     </Tbody>
@@ -64,6 +70,10 @@ export default function OrderHistory() {
           </Accordion>
         ))}
       </div>
+      <Flex justifyContent="center" mb={4} marginTop={10} >
+        {/* Centering the button */}
+        <Button onClick={handleBackButtonClick} colorScheme="red">Back to Menu</Button>
+      </Flex>
     </>
   );
 }

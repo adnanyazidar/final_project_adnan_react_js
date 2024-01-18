@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import {
   Card,
@@ -7,7 +6,6 @@ import {
   Stack,
   Heading,
   StackDivider,
-  Text,
 } from "@chakra-ui/react";
 import CartItem from "./CartItem";
  
