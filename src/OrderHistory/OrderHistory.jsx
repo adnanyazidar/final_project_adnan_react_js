@@ -1,5 +1,6 @@
-import { Text, } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
+
+import { Text,  } from "@chakra-ui/react";
+// import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
 import { Link as ReactRouterLink } from "react-router-dom";
 import IMAGE from "../assets/NoResults.png";
@@ -35,7 +36,6 @@ export default function OrderHistory() {
     <>
       <VStack spacing={4} align="center">
         <Button
-          leftIcon={<ArrowBackIcon />}
           alignSelf={"flex-start"}
           colorScheme="red"
         >
