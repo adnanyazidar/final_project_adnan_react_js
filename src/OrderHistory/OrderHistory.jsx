@@ -1,5 +1,4 @@
-import React from "react";
-import { Text, Tfoot } from "@chakra-ui/react";
+import { Text, } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
 import { Link as ReactRouterLink } from "react-router-dom";
