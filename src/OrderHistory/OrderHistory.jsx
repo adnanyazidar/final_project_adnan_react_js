@@ -1,13 +1,18 @@
-// import { useHistory } from "react-router-dom"; // Import useHistory from React Router]
-import { Navigate, useNavigate } from "react-router-dom"; // Import useHistory from React Router]
-import {  Button, Flex } from "@chakra-ui/react";
+import React from "react";
+import { Text, Tfoot } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
+import { Link as ReactRouterLink } from "react-router-dom";
+import IMAGE from "../assets/NoResults.png";
+
 import {
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
+  Button,
+  VStack,
   Box,
   TableContainer,
   Table,
@@ -15,65 +20,104 @@ import {
   Tbody,
   Tr,
   Th,
+  Td,
 } from "@chakra-ui/react";
- 
+
 export default function OrderHistory() {
-  // const history = useHistory(); // Get the history object
-  const history = useNavigate(); // Get the history object
-const getOrderData = useSelector((state) => state.pizza.orderPlace);
- 
-  const handleBackButtonClick = () => {
-    // history.push("/main-menu"); // Replace "/main-menu" with the path to your main menu component
-    history("/");
-  };
- 
+  const getOrderData = useSelector((state) => state.pizza.orderPlace);
+
+  const sortedOrderData = getOrderData
+    .slice()
+    .sort((a, b) => b.orderId - a.orderId);
+
+    const imageSource = IMAGE;
+
   return (
     <>
-      
-      <div>
-        {getOrderData.map((data) => (
-          <Accordion allowToggle key={data.orderId}>
-            <AccordionItem>
-              <h2>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    Order Number #ID{data.orderId}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel>
-                <TableContainer>
-                  <Table variant="simple">
-                    <Thead>
-                      <Tr>
-                        <Th>Nama Makanan</Th>
-                        <Th>Notes</Th> 
-                        <Th>Jumlah Pesanan</Th>
-                        <Th isNumeric>Price</Th>
-                      </Tr>
-                    </Thead>
-                    <Tbody>
-                      {data.cartData.map((item) => (
-                        <Tr key={item.pizzaName}>
-                          <Th>{item.pizzaName}</Th>
-                          <Th>{item.notes}</Th>
-                          <Th>{item.quantity}</Th>
-                          <Th isNumeric>{item.price}</Th>
+      <VStack spacing={4} align="center">
+        <Button
+          leftIcon={<ArrowBackIcon />}
+          alignSelf={"flex-start"}
+          colorScheme="red"
+        >
+          <ReactRouterLink style={{ color: "white" }} to="/">
+            Back to menu
+          </ReactRouterLink>
+        </Button>
+
+        {getOrderData.length <= 0 ? (
+          <VStack h="full" justifyContent={"center"} height="100%">
+            <img src={imageSource} style={{ height: 200 }}></img>
+
+            <Text color="gray.400" width="325px">
+              Tidak ada history tersedia, yuk belanja dulu
+            </Text>
+          </VStack>
+        ) : (
+          sortedOrderData.map((data) => (
+            // eslint-disable-next-line react/jsx-key
+            <Accordion allowToggle width="full">
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box as="span" flex="1" textAlign="left">
+                      Order Number #ID{data["orderId"]}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel>
+                  <TableContainer>
+                    <Table variant="simple">
+                      <Thead>
+                        <Tr>
+                          <Th minW="250px">Nama Makanan</Th>
+                          <Th maxW="">Jumlah Pesanan</Th>
+                          <Th>Notes</Th>
+                          <Th isNumeric>Price</Th>
                         </Tr>
-                      ))}
-                    </Tbody>
-                  </Table>
-                </TableContainer>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
-        ))}
-      </div>
-      <Flex justifyContent="center" mb={4} marginTop={10} >
-        {/* Centering the button */}
-        <Button onClick={handleBackButtonClick} colorScheme="red">Back to Menu</Button>
-      </Flex>
+                      </Thead>
+                      <Tbody>
+                        {data.cartData // Create a new array before sorting
+                          .map((item) => (
+                            <Tr key={item.id}>
+                              <Td>{item.pizzaName}</Td>
+                              <Td>{item.quantity}</Td>
+                              <Td>{item.notes}</Td>
+                              <Td isNumeric>{`${
+                                item.price * item.quantity
+                              }`}</Td>
+                            </Tr>
+                          ))}
+                        <Tr>
+                          <Th></Th>
+                          <Th></Th>
+                          <Th>PPN</Th>
+                          <Td textAlign="right">{data.ppn}</Td>
+                        </Tr>
+                        <Tr>
+                          <Th></Th>
+                          <Th></Th>
+                          <Th>Service</Th>
+                          <Td textAlign="right">{data.service}</Td>
+                        </Tr>
+                        <Tr>
+                          <Th></Th>
+                          <Th></Th>
+                          <Th>Total Price</Th>
+                          <Th textAlign="right" fontSize={18}>
+                            {data.totalPrice}
+                          </Th>
+                        </Tr>
+                      </Tbody>
+                    </Table>
+                  </TableContainer>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          ))
+        )}
+      </VStack>
     </>
   );
 }
