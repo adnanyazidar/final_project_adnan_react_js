@@ -16,7 +16,7 @@ import {
   Flex,
   VStack,
 } from "@chakra-ui/react";
-import { storeCartData } from "../Redux/ReduxSlices";
+import { storeCartData } from "../../Redux/ReduxSlices";
 
 export default function ProductCard({ cardContent }) {
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ export default function ProductCard({ cardContent }) {
       <CardFooter>
         <VStack>
           <Text color="blue.600" fontSize="16">
-           Rp.{cardContent.pizzaPrice}
+           Rp {cardContent.pizzaPrice}
           </Text>
           <ButtonGroup spacing="2">
             <Button

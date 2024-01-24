@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
  
 import { useSelector, useDispatch } from "react-redux";
-import { storeCartData, deleteCartData } from "../Redux/ReduxSlices";
-import { rupiah } from "../utils/currencyConvert";
+import { storeCartData, deleteCartData } from "../../Redux/ReduxSlices";
+import { rupiah } from "../../utils/currencyConvert";
  
 export default function CartItem({ item }) {
   const itemName = item.pizzaName

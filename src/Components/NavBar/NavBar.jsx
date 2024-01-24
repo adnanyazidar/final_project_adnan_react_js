@@ -1,10 +1,10 @@
 import { HStack, Image, Input, Button } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { storeSearchKeyword } from "../Redux/ReduxSlices";
+import { storeSearchKeyword } from "../../Redux/ReduxSlices";
 
 export default function NavBar() {
-  const getSearchKeyword = useSelector((state) => state.pizza.searchKeyword);
+  // const getSearchKeyword = useSelector((state) => state.pizza.searchKeyword);
   const dispatch = useDispatch();
   return (
     <>
@@ -15,7 +15,7 @@ export default function NavBar() {
           width={"50%"}
           onChange={(e) => dispatch(storeSearchKeyword(e.target.value))}
         >
-          {console.log(getSearchKeyword)}
+          {/* {console.log(getSearchKeyword)} */}
         </Input>     
           <Button colorScheme=""><Image src='history.png' alt='Dan Abramov' height={'24px'} marginRight={2} /><ReactRouterLink style={{color: "black"}}
             to="/history"

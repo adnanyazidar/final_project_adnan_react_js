@@ -24,9 +24,16 @@ export const pizzaSlice = createSlice({
       state.searchKeyword = action.payload;
     },
     storeOrderPlace: (state, action) => {
-      // state.orderId +=1;
-      state.orderPlace = [...state.orderPlace, { cartData: state.cartData, orderId: state.orderPlace.length + 1 }];
-      console.log(state.orderPlace);
+      // // state.orderId +=1;
+      // state.orderPlace = [
+      //   ...state.orderPlace,
+      //   { cartData: state.cartData, orderId: state.orderPlace.length + 1 },
+      // ];
+      state.orderPlace = [
+        ...state.orderPlace,
+        { ...action.payload, orderId: state.orderPlace.length + 1 },
+      ];
+      // console.log(state.orderPlace);
       state.cartData = [];
     },
   },

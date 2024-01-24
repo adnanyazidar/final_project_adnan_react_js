@@ -3,7 +3,7 @@ import { Text,  } from "@chakra-ui/react";
 // import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useSelector } from "react-redux";
 import { Link as ReactRouterLink } from "react-router-dom";
-import IMAGE from "../assets/NoResults.png";
+import IMAGE from "../../assets/NoResults.png";
 
 import {
   Accordion,
@@ -22,16 +22,16 @@ import {
   Th,
   Td,
 } from "@chakra-ui/react";
+import { rupiah } from "../../utils/currencyConvert";
 
 export default function OrderHistory() {
   const getOrderData = useSelector((state) => state.pizza.orderPlace);
-
   const sortedOrderData = getOrderData
     .slice()
-    .sort((a, b) => b.orderId - a.orderId);
+    .sort((a, b) => b.orderId - a.orderId); 
 
     const imageSource = IMAGE;
-
+    console.log({sortedOrderData});
   return (
     <>
       <VStack spacing={4} align="center">
@@ -54,6 +54,7 @@ export default function OrderHistory() {
           </VStack>
         ) : (
           sortedOrderData.map((data) => (
+            
             // eslint-disable-next-line react/jsx-key
             <Accordion allowToggle width="full">
               <AccordionItem>
@@ -84,7 +85,7 @@ export default function OrderHistory() {
                               <Td>{item.quantity}</Td>
                               <Td>{item.notes}</Td>
                               <Td isNumeric>{`${
-                                item.price * item.quantity
+                                rupiah(item.price * item.quantity)
                               }`}</Td>
                             </Tr>
                           ))}
@@ -92,20 +93,20 @@ export default function OrderHistory() {
                           <Th></Th>
                           <Th></Th>
                           <Th>PPN</Th>
-                          <Td textAlign="right">{data.ppn}</Td>
+                          <Td textAlign="right">{rupiah(data.ppn)}</Td>
                         </Tr>
                         <Tr>
                           <Th></Th>
                           <Th></Th>
                           <Th>Service</Th>
-                          <Td textAlign="right">{data.service}</Td>
+                          <Td textAlign="right">{rupiah(data.service)}</Td>
                         </Tr>
                         <Tr>
                           <Th></Th>
                           <Th></Th>
                           <Th>Total Price</Th>
                           <Th textAlign="right" fontSize={18}>
-                            {data.totalPrice}
+                            {rupiah(data.totalPrice)}
                           </Th>
                         </Tr>
                       </Tbody>
